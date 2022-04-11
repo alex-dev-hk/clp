@@ -1,2 +1,4 @@
 # clp
-ws game 
+websocket/ client
+websocket/ server
+
