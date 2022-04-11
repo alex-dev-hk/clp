@@ -1,0 +1,1 @@
+export const SOCKET_URL = process.env.SOCKET_URL || 'http://192.168.128.144:4000'
