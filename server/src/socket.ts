@@ -9,12 +9,14 @@ const EVENTS = {
         CREATE_ROOM: "CREATE_ROOM",
         SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
         JOIN_ROOM: "JOIN_ROOM",
-        CLIENT_CONNECTION: "CLIENT_CONNECTION",
+        SEND_CLIENT_RESULT: "SEND_CLIENT_RESULT",
     },
     SERVER: {
         ROOMS: 'ROOMS',
         JOINED_ROOM: 'JOIN_ROOM',
         ROOM_MESSAGE: "ROOM_MESSAGE",
+        RECEIVED_CLIENT_RESULT: "RECEIVED_CLIENT_RESULT"
+
     }
 }
 
@@ -30,13 +32,15 @@ function socket({io}: {io:Server}) {
         
         // when a user create a new Room 
         socket.on(EVENTS.CLIENT.CREATE_ROOM, ({roomName}) => {
-           logger.info({roomName});
+        //    logger.info({roomName});
+         
            // create a roomId
            const roomId = nanoid()
            // add a new room to the rooms object
            rooms[roomId] = {
                name :  roomName
            }
+           console.log({roomId})
            // socket.join(roomId)
            socket.join(roomId);
            // broadcast an event saying there is a new room 
@@ -68,7 +72,8 @@ function socket({io}: {io:Server}) {
         })
 
 
-        socket.on(EVENTS.CLIENT.CLIENT_CONNECTION, (sessionId) => {
+        socket.on(EVENTS.CLIENT.SEND_CLIENT_RESULT, (clientResult) => {
+            console.log(clientResult)
 
         })
 

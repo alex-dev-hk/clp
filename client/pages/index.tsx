@@ -5,27 +5,19 @@ import Link from 'next/link'
 import { useSockets } from '../context/socket.context'
 import  RoomsContainer  from '../containers/Rooms'
 import MessageContainer from '../containers/Messages'
+import ChartContainer from '../containers/chart'
 
 import { useRef } from 'react'
 
 export default function Home() {
   
-  const {socket, username, setUsername, roomId} = useSockets()
-  const usernameRef = useRef(null)
-
-  function handlerSetUsername(){
-    const value = usernameRef.current.value
-    if(!value){
-      return;
-    }
-    setUsername(value);
-    localStorage.setItem("username", value);
-  }
+  const {socket} = useSockets()
   
   return (
   <div>
-  
-    {!username && (
+   <p>{socket.id}</p>
+   <ChartContainer />
+    {/* {!username && (
       <div>
           <input placeholder='user name' ref={usernameRef}/>  
           <button onClick={handlerSetUsername}>Start</button>
@@ -37,8 +29,9 @@ export default function Home() {
         <p>Room Id: {roomId}</p>
         <RoomsContainer />
         <MessageContainer/>
+       
       </>
-    )}
+    )} */}
 
       <Link href="/client"> client </Link>
 

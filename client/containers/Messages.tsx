@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import EVENTS from "../config/events";
 import { useSockets } from "../context/socket.context"
 
@@ -6,6 +6,7 @@ import { useSockets } from "../context/socket.context"
 function MessageContainer(){
     const {socket, messages, roomId, username, setMessages} = useSockets()
     const newMessageRef = useRef(null);
+    const messageEndRef = useRef(null);
 
     function handleSendMessage(){
         const message = newMessageRef.current.value 
@@ -26,6 +27,12 @@ function MessageContainer(){
         newMessageRef.current.value = "";
     }
 
+    useEffect(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth"});
+    }, [messages])
+
+
+
     // User has no RoomId
     if(!roomId){
         return <div/>
@@ -41,11 +48,10 @@ function MessageContainer(){
                             message: {message}
                             </p>
                         </div>
-                        
-                    
-                    
                     )
             })}
+
+            <div ref={messageEndRef} />
             {/* message box */}
             <div>
                 <textarea

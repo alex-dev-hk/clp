@@ -1,6 +1,7 @@
 import express from 'express'
 import { createServer } from 'http' 
 import { Server } from 'socket.io'
+import EVENTS from '../config/events'
 import cors from 'cors'
 import logger from './utils/logger'
 import { version } from '../package.json'
@@ -26,7 +27,14 @@ const io = new Server(httpServer, {
     },
 })
 
+io.on(EVENTS.connection, (socket)=>{
+    console.log("user connected")
+    console.log(socket.id)
+  
+})
+
 app.get('/', (_,res) => res.send(`Server is up and running Version ${version}`))
+
 httpServer.listen(port, host, () => {
   
     logger.info(`Server version: ${version}`)

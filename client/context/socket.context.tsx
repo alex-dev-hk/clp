@@ -9,6 +9,8 @@ interface Context {
     setUsername:  Function;
     messages?: {message: string; time:string; username: string}[];
     setMessages: Function;
+    clientResult: {minus:[], plus:[]};
+    setClientResult: Function;
     roomId?: string;
     rooms: object;
 }
@@ -20,12 +22,15 @@ const SocketContext = createContext<Context>({
     socket,
     setUsername: () => false,
     setMessages: () => false,
+    clientResult: {minus:[], plus:[]},
+    setClientResult: () => false,
     rooms: {},
     messages: [],
 })
 
 function SocketsProvider (props:any) {
 const [username, setUsername] = useState("");
+const [clientResult, setClientResult] = useState({});
 const [roomId, setRoomId] = useState("");
 const [rooms, setRooms] = useState({});
 const [messages, setMessages] = useState([]);
@@ -51,12 +56,19 @@ const [messages, setMessages] = useState([]);
 
     })
 
+    socket.on(EVENTS.SERVER.RECEIVED_CLIENT_RESULT,(clientResult)=>{
+        setClientResult(clientResult)
+    })
+
+
 
 
     return (
         <SocketContext.Provider 
             value={{
                 socket,
+                clientResult,
+                setClientResult,
                 username,
                 setUsername,
                 rooms,

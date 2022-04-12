@@ -17,9 +17,7 @@ function RoomsContainer (){
     }
 
     function handleJoinRoom(key) {
-        if(key === roomId){
-            return;
-        }
+        if(key === roomId) return;
 
         socket.emit(EVENTS.CLIENT.JOIN_ROOM, key)
     }
@@ -36,11 +34,11 @@ function RoomsContainer (){
                 return <div key={key}>
                     room ID : {key} | room Name : {rooms[key].name}
                     <button 
-                    disabled={key == roomId}
-                    title={`Join ${rooms[key].name} ID: ${key}`}
-                    onClick={()=>handleJoinRoom(key)}
-                    >
-                       {rooms[key].name}
+                        disabled={key == roomId}
+                        title={`Join ${rooms[key].name} ID: ${key}`}
+                        onClick={()=>handleJoinRoom(key)}
+                        >
+                    {rooms[key].name}
 
                     </button>
                     </div>

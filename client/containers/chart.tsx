@@ -1,9 +1,21 @@
 import {LineChart} from '../component/chartComponent'
 import createChartConfig, { ChartData, ChartItem } from 'chart.js'
+import { useRef } from 'react'
+import { useSockets } from '../context/socket.context'
+import EVENTS from '../config/events'
 
 
 function ChartContainer(){
-    // const clicks = useRef({})
+  
+    const {socket, clientResult} = useSockets()
+
+    function getMaxCounts(value) {
+        const min = value?.minus?.length || 0
+        const plus = value?.plus?.length || 0
+        return min ? min > plus : plus
+    }
+
+   
 
     const colour1 = {
         yellow: '#f1cf00',
@@ -34,33 +46,32 @@ function ChartContainer(){
         }
     }
 
-    let clickData = (clicks) => {
-        return Array(clicks).keys()
-    }
 
-    let labels = [...Array(5).keys()].map(k => `${k + 1} click`)
+
+    let labels = [...Array(10).keys()].map(k => `${k + 1} click`)
     let data = {
         labels,
         datasets:[
             {
                 label: "➕ Plus",
                 backgroundColor: [...Object.values(colour1)],
-                data: clickData(5),
+                data: clientResult.plus,
             },
             {
                 label: 'Average',
                 backgroundColor: [...Object.values(colour1)],
-                data: [1, 2 ,3, 2, 1],
+                data: [],
             },
             {
                 label: '➖ Minus',
                 backgroundColor: [...Object.values(colour1)],
-                data: [1, 2 ,3, 2, 1],
+                data: clientResult.minus,
             }
         ]
     }
 
     return(<div>
+  
              <LineChart lineChartdata={{data, options}}/>
 
     </div>)
