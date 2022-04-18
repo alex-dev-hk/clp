@@ -33,7 +33,11 @@ io.on(EVENTS.connection, (socket)=>{
   
 })
 
+
+
+
 app.get('/', (_,res) => res.send(`Server is up and running Version ${version}`))
+
 
 httpServer.listen(port, host, () => {
   
