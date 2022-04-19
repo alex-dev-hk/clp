@@ -1,0 +1,31 @@
+version: '3'
+services:
+  react-app:
+    # stdin_open: true -it flag
+    # tty: true
+    # build: ./client/
+    build:
+      context: ./client/
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    environment:
+      - REACT_APP_NAME=clp
+    env_file:
+      - ./client/.env
+  nginx:
+    image: nginx:1.15-apline
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
