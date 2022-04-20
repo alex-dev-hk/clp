@@ -1,6 +1,6 @@
 import express from 'express'
 import { createServer } from 'http' 
-import { Server } from 'socket.io'
+import { Server, Socket } from 'socket.io'
 import EVENTS from '../config/events'
 import cors from 'cors'
 import logger from './utils/logger'
@@ -12,11 +12,11 @@ import config from 'config'
 
 
 //Http
-const port = config.get<number>("port");
-const host = config.get<string>("host");
+const port:number = config.get("port");
+const host:string = config.get("host");
 const app = express()
 //header
-const corsOrigin = config.get<string>("corsOrigin")
+const corsOrigin:string = config.get("corsOrigin")
 
 const httpServer = createServer(app);
 // initialise websocket with Express
@@ -27,7 +27,7 @@ const io = new Server(httpServer, {
     },
 })
 
-io.on(EVENTS.connection, (socket)=>{
+io.on(EVENTS.connection, (socket: Socket)=>{
     console.log("user connected")
     console.log(socket.id)
   
